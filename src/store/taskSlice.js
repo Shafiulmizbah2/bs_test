@@ -1,3 +1,5 @@
+//This slice is handle all functionality about Task flow.
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
