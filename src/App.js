@@ -4,7 +4,8 @@ import Main from "./Routes";
 function App() {
   return (
     <>
-      <Main /> //main componet contains all routes
+      {/* main componet contains all routes */}
+      <Main />
     </>
   );
 }

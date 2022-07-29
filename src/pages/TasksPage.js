@@ -1,7 +1,8 @@
 import React from "react";
+import Section from "../components/Section";
 
 const TasksPage = () => {
-  return <div>TasksPage</div>;
+  return <Section>TasksPage</Section>;
 };
 
 export default TasksPage;
