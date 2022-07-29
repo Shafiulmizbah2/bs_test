@@ -8,6 +8,29 @@ const initialState = {
   error: "",
 };
 
+//this func is responsible for adding new task
+export const addNewTask =
+  (title, description, assignTo) => (dispatch, getState) => {
+    const { task } = getState();
+    dispatch(setError(""));
+    if (!title) return dispatch(setError("Title is required field!"));
+
+    dispatch(setLoading(true));
+    const date = new Date().toDateString();
+
+    try {
+      dispatch(setLoading(false));
+      const newTasks = [
+        ...task.tasks,
+        { title, description, assignTo, createdAt: date },
+      ];
+      dispatch(setTask(newTasks));
+    } catch (error) {
+      dispatch(setLoading(false));
+      dispatch(setError(error));
+    }
+  };
+
 export const taskSlice = createSlice({
   name: "task",
   initialState,

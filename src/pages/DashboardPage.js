@@ -8,8 +8,11 @@ const Container = styled.div`
   padding: 2rem 0;
   display: flex;
   align-items: center;
-  margin-top: 1rem;
-  overflow-x: hidden;
+  flex-wrap: wrap;
+
+  @media only screen and (max-width: 500px) {
+    justify-content: center;
+  }
 `;
 
 const TileButton = styled.div`
@@ -28,9 +31,14 @@ const TileButton = styled.div`
   text-transform: uppercase;
   cursor: pointer;
   box-shadow: 0.3rem 0.5rem 0.7rem rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
 
   &:not(:last-child) {
     margin-right: 1.5rem;
+
+    @media only screen and (max-width: 500px) {
+      margin-right: 0;
+    }
   }
 `;
 

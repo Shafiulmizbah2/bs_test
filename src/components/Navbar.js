@@ -67,6 +67,7 @@ const Menu = styled.label`
   position: absolute;
   left: -5rem;
   top: 1rem;
+  cursor: pointer;
 
   @media only screen and (max-width: 880px) {
     display: inline-block;
@@ -128,7 +129,7 @@ const Navbar = () => {
         <Check type="checkbox" id="menu" />
 
         <RightContainer>
-          <Menu for="menu">
+          <Menu htmlFor="menu">
             <HiMenuAlt1 size={30} />
           </Menu>
           <StyledLink>

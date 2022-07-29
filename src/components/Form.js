@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import theme from "../theme";
 
 const Container = styled.form`
   width: 30%;
@@ -77,6 +78,30 @@ const Input = styled.input`
   }
 `;
 
+const Select = styled.select`
+  width: 90%;
+  padding: 1rem;
+  background-color: ${(props) => props.theme.gray};
+  outline: none;
+  border: none;
+  font-size: 1.6rem;
+  font-weight: inherit;
+  color: ${(props) => props.theme.black};
+
+  & > option {
+    flex: 1;
+    padding: 1rem !important;
+    outline: none;
+    border: none;
+    font-size: 1.6rem;
+    font-weight: inherit;
+    background-color: ${(props) => props.theme.white};
+    color: ${(props) => props.theme.black};
+  }
+`;
+
+const Option = styled.option``;
+
 const Button = styled.button`
   padding: 0.8rem 2rem;
   background: ${(props) => (props.bgColor ? props.bgColor : "gray")};
@@ -122,6 +147,22 @@ Form.Button = ({ text, bgColor, color, fullWidth, ...rest }) => {
     <Button bgColor={bgColor} color={color} fullWidth={fullWidth} {...rest}>
       {text}
     </Button>
+  );
+};
+
+Form.Select = ({
+  options = [],
+  handleChange,
+  defaultValue = "Select an option",
+  ...rest
+}) => {
+  return (
+    <Select {...rest} handleChange={handleChange}>
+      {defaultValue && <Option value="">{defaultValue}</Option>}
+      {options.map((item) => (
+        <Option key={item.value}>{item.value}</Option>
+      ))}
+    </Select>
   );
 };
 
