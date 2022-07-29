@@ -4,7 +4,8 @@ import { useLocation, NavLink } from "react-router-dom";
 import Logo from "./Logo";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { GiTireIronCross } from "react-icons/gi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "../store/authSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -74,6 +75,7 @@ const Menu = styled.label`
 
 const StyledLink = styled.li`
   list-style: none;
+  border: 2px solid transparent;
 
   &:not(:last-child) {
     margin-right: 1rem;
@@ -105,11 +107,11 @@ const StyledLink = styled.li`
 `;
 
 let activeStyle = {
-  backgroundColor: "#f9f9f9",
-  color: "#2c3e50",
+  border: `2px solid #f9f9f9`,
 };
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { pathname } = useLocation();
 
@@ -153,7 +155,7 @@ const Navbar = () => {
               Members
             </NavLink>
           </StyledLink>
-          <StyledLink>
+          <StyledLink onClick={() => dispatch(signOut())}>
             <div to="/members">Logout</div>
           </StyledLink>
           <StyledLink>

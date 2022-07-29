@@ -24,6 +24,12 @@ export const signIn = (email, password) => (dispatch) => {
   }
 };
 
+export const signOut = () => (dispatch) => {
+  dispatch(setLoading(false));
+  dispatch(setError(""));
+  dispatch(setUser(null));
+};
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
