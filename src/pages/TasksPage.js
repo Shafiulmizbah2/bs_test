@@ -59,6 +59,7 @@ const Task = styled.div`
 const Column = styled.div`
   width: 33.33%;
   font-size: 1.7rem;
+  color: ${(props) => props.theme.gray}
   font-weight: 400;
 `;
 
@@ -107,13 +108,22 @@ const TasksPage = () => {
           </TopContainer>
           <Container>
             <Task>
-              <Column>Task</Column>
-              <Column>Creation date</Column>
-              <Column>Assign to</Column>
+              <Column style={{ color: theme.black, fontWeight: 500 }}>
+                Tasks
+              </Column>
+              <Column style={{ color: theme.black, fontWeight: 500 }}>
+                Creation date
+              </Column>
+              <Column style={{ color: theme.black, fontWeight: 500 }}>
+                Assign to
+              </Column>
             </Task>
             {tasks.map((item) => (
               <Task key={item.title}>
-                <Column onClick={() => navigate(`/tasks/${item.id}`)}>
+                <Column
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate(`/tasks/${item.id}`)}
+                >
                   {item.title}
                 </Column>
                 <Column>{item.createdAt}</Column>

@@ -23,7 +23,7 @@ const TileButton = styled.div`
   justify-content: center;
   background-color: ${(props) => props.theme.whiteOrg};
   outline: none;
-  border: none;
+  border: 2px solid ${(props) => props.theme.blue};
   font-size: 1.4rem;
   font-weight: 700;
   color: ${(props) => props.theme.grayDark};
@@ -32,14 +32,7 @@ const TileButton = styled.div`
   cursor: pointer;
   box-shadow: 0.3rem 0.5rem 0.7rem rgba(0, 0, 0, 0.1);
   margin-bottom: 1.5rem;
-
-  &:not(:last-child) {
-    margin-right: 1.5rem;
-
-    @media only screen and (max-width: 500px) {
-      margin-right: 0;
-    }
-  }
+  margin: 1rem;
 `;
 
 const DashboardPage = () => {

@@ -108,7 +108,6 @@ const MemberDetailsPage = () => {
   };
 
   const handleDelete = () => {
-    console.log(selectedMember.id);
     dispatch(deleteMember(selectedMember.id));
     navigate("/members", { replace: true });
   };
@@ -155,9 +154,15 @@ const MemberDetailsPage = () => {
               </Actions>
             </Container>
             <Task>
-              <Column>Task</Column>
-              <Column>Creation date</Column>
-              <Column>Description </Column>
+              <Column style={{ color: theme.black, fontWeight: 500 }}>
+                Tasks
+              </Column>
+              <Column style={{ color: theme.black, fontWeight: 500 }}>
+                Creation date
+              </Column>
+              <Column style={{ color: theme.black, fontWeight: 500 }}>
+                Description{" "}
+              </Column>
             </Task>
             {membersTask.map((item) => (
               <Task key={item.title}>
@@ -176,7 +181,7 @@ const MemberDetailsPage = () => {
                   marginTop: "2rem",
                 }}
               >
-                No task found!
+                No task assigned!
               </Title>
             )}
           </Container>

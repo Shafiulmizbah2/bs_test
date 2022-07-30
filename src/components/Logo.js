@@ -19,9 +19,9 @@ const Title = styled.h6`
   color: ${(props) => props.theme.white};
 `;
 
-const Logo = ({ title }) => {
+const Logo = ({ title, navigate }) => {
   return (
-    <Container>
+    <Container onClick={navigate}>
       <Image src="./logo.png" />
       {title && <Title>{title}</Title>}
     </Container>

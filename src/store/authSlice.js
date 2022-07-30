@@ -1,4 +1,6 @@
 //This slice is handle all functionality about authentication flow.
+import { setMembers } from "./memberSlice";
+import { setTask } from "./taskSlice";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -23,9 +25,11 @@ export const signIn = (email, password) => (dispatch) => {
   }
 };
 
-export const signOut = () => (dispatch) => {
+export const signOut = () => async (dispatch) => {
   dispatch(setLoading(false));
   dispatch(setError(""));
+  dispatch(setMembers([]));
+  dispatch(setTask([]));
   dispatch(setUser(null));
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useLocation, NavLink } from "react-router-dom";
+import { useLocation, NavLink, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { GiTireIronCross } from "react-icons/gi";
@@ -65,7 +65,7 @@ const Check = styled.input`
 const Menu = styled.label`
   display: none;
   position: absolute;
-  left: -5rem;
+  left: -3.5rem;
   top: 1rem;
   cursor: pointer;
 
@@ -113,6 +113,7 @@ let activeStyle = {
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const { pathname } = useLocation();
 
@@ -122,7 +123,10 @@ const Navbar = () => {
     <Container>
       <Nav>
         <LeftContainer>
-          <Logo title="BS23_TEST" />
+          <Logo
+            title="BS23_TEST"
+            navigate={() => navigate("/", { replace: true })}
+          />
         </LeftContainer>
 
         {/* This checkbox toggle the sidebar(Right Container) based on checked or not */}

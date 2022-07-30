@@ -72,13 +72,6 @@ const Column = styled.p`
   margin-right: 0.5rem;
 `;
 
-const HeaderTitle = styled.h3`
-  font-size: 1.8rem;
-  font-weight: 400;
-  margin-right: 0.5rem;
-  text-transform: capitalize;
-`;
-
 const MembersPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [values, setValues] = useState({});
@@ -123,8 +116,12 @@ const MembersPage = () => {
           </TopContainer>
           <Container>
             <Member>
-              <HeaderTitle>Name</HeaderTitle>
-              <Column>No of tasks</Column>
+              <Column style={{ color: theme.black, fontWeight: 500 }}>
+                Name
+              </Column>
+              <Column style={{ color: theme.black, fontWeight: 500 }}>
+                No of tasks
+              </Column>
             </Member>
             {members.map((item) => (
               <Member key={item.name}>

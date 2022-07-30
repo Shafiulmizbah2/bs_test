@@ -90,7 +90,6 @@ const TaskDetailsPage = () => {
   };
 
   const handleDelete = () => {
-    console.log(selectedTask.id);
     dispatch(deleteTask(selectedTask.id));
     navigate("/tasks", { replace: true });
   };
