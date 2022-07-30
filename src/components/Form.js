@@ -100,7 +100,9 @@ const Select = styled.select`
   }
 `;
 
-const Option = styled.option``;
+const Option = styled.option`
+  text-transform: capitalize;
+`;
 
 const Button = styled.button`
   padding: 0.8rem 2rem;
@@ -160,7 +162,7 @@ Form.Select = ({
     <Select {...rest} handleChange={handleChange}>
       {defaultValue && <Option value="">{defaultValue}</Option>}
       {options.map((item) => (
-        <Option key={item.value}>{item.value}</Option>
+        <Option key={item.id}>{item.value}</Option>
       ))}
     </Select>
   );

@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Section from "../components/Section";
 import theme from "../theme";
-import { addNewTask, getTask, updateTask } from "../store/taskSlice";
+import { addNewTask } from "../store/taskSlice";
 import Modal from "../components/Modal";
 import Form from "../components/Form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -51,40 +51,24 @@ const Task = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   justify-content: space-between;
   padding: 1rem;
   border-bottom: 0.2rem solid ${(props) => props.theme.gray};
 `;
 
-const TaskTitle = styled(Link)`
-  font-size: 1.8rem;
-  font-weight: 300;
-  margin-right: 0.5rem;
-  text-transform: capitalize;
-  text-decoration: none;
-  color: inherit;
-`;
-
-const Column = styled.p`
+const Column = styled.div`
+  width: 33.33%;
   font-size: 1.7rem;
   font-weight: 400;
-  margin-right: 0.5rem;
-`;
-
-const HeaderTitle = styled.h3`
-  font-size: 1.8rem;
-  font-weight: 400;
-  margin-right: 0.5rem;
-  text-transform: capitalize;
 `;
 
 const TasksPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [values, setValues] = useState({});
-  const [selectedTask, setSelectedTask] = useState({});
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { tasks, loading, error } = useSelector((state) => state.task);
+  const { members } = useSelector((state) => state.member);
 
   const toggleModal = () => setModalOpen(!modalOpen);
 
@@ -98,10 +82,18 @@ const TasksPage = () => {
 
   const handleCreate = (e) => {
     e.preventDefault();
-    dispatch(addNewTask(values.title, values.description, values.assignTo));
+    const res = dispatch(
+      addNewTask(values.title, values.description, values.assignTo)
+    );
     setValues({});
-    if (!loading && !error) toggleModal();
+    if (res?.payload) setModalOpen(true);
+    else setModalOpen(false);
   };
+
+  const options = members?.map((item) => ({
+    id: item.id,
+    value: item.name,
+  }));
 
   return (
     <>
@@ -115,13 +107,15 @@ const TasksPage = () => {
           </TopContainer>
           <Container>
             <Task>
-              <HeaderTitle>Task</HeaderTitle>
+              <Column>Task</Column>
               <Column>Creation date</Column>
               <Column>Assign to</Column>
             </Task>
             {tasks.map((item) => (
               <Task key={item.title}>
-                <TaskTitle to={`/tasks/${item.id}`}>{item.title}</TaskTitle>
+                <Column onClick={() => navigate(`/tasks/${item.id}`)}>
+                  {item.title}
+                </Column>
                 <Column>{item.createdAt}</Column>
                 <Column>{item.assignTo}</Column>
               </Task>
@@ -170,7 +164,7 @@ const TasksPage = () => {
               name="assignTo"
               value={values.assignTo}
               onChange={handleChange}
-              options={[{ value: "Mr.Abc" }, { value: "Mr.Efg" }]}
+              options={options}
               defaultValue="Assign to"
             />
             <Form.Button

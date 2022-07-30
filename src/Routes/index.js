@@ -7,6 +7,7 @@ import MembersPage from "../pages/MembersPage";
 import ProtectedRoute from "./ProtectedRoute";
 import Layout from "../components/Layout";
 import TaskDetailsPage from "../pages/TaskDetailsPage";
+import MemberDetailsPage from "../pages/MemberDetailsPage";
 
 export default () => {
   return (
@@ -30,6 +31,14 @@ export default () => {
             element={
               <ProtectedRoute>
                 <MembersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path=":memberId"
+            element={
+              <ProtectedRoute>
+                <MemberDetailsPage />
               </ProtectedRoute>
             }
           />

@@ -67,6 +67,7 @@ const TaskDetailsPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { tasks, loading, error } = useSelector((state) => state.task);
+  const { members } = useSelector((state) => state.member);
 
   //this toggle func show update modal
   const toggleUpdateModal = () => {
@@ -97,6 +98,11 @@ const TaskDetailsPage = () => {
   useEffect(() => {
     setSelectedTask(dispatch(getTask(taskId)));
   }, [taskId, tasks]);
+
+  const options = members?.map((item) => ({
+    id: item.id,
+    value: item.name,
+  }));
 
   return (
     <>
@@ -154,7 +160,7 @@ const TaskDetailsPage = () => {
               name="assignTo"
               value={selectedTask.assignTo}
               onChange={handleSelectedChange}
-              options={[{ value: "Mr.Abc" }, { value: "Mr.Efg" }]}
+              options={options}
               defaultValue="Assign to"
             />
             <Form.Button

@@ -1,5 +1,4 @@
 //This slice is handle all functionality about authentication flow.
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {

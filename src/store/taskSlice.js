@@ -27,6 +27,7 @@ export const addNewTask =
         ...task.tasks,
         { id, title, description, assignTo, createdAt: date },
       ];
+      dispatch(setError(""));
       dispatch(setTask(newTasks));
     } catch (error) {
       dispatch(setLoading(false));
@@ -72,7 +73,6 @@ export const deleteTask = (id) => (dispatch, getState) => {
   if (queryTask) {
     try {
       dispatch(setLoading(false));
-      console.log(queryTask);
       dispatch(setTask(queryTask));
     } catch (error) {
       dispatch(setLoading(false));
@@ -88,6 +88,9 @@ export const taskSlice = createSlice({
     setTask: (state, { payload }) => {
       state.tasks = payload;
     },
+    setSelectedMembersTasks: (state, { payload }) => {
+      state.selectedMembersTasks = payload;
+    },
     setLoading: (state, { payload }) => {
       state.loading = payload;
     },
@@ -97,6 +100,7 @@ export const taskSlice = createSlice({
   },
 });
 
-export const { setTask, setLoading, setError } = taskSlice.actions;
+export const { setTask, setSelectedMembersTasks, setLoading, setError } =
+  taskSlice.actions;
 
 export default taskSlice.reducer;
