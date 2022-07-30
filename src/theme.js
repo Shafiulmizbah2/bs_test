@@ -8,6 +8,7 @@ const theme = {
   grayDark: "#555",
   blue: "#0277BD",
   danger: "#c0392b",
+  orange: "orangered",
 };
 
 export default theme;

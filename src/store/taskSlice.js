@@ -62,6 +62,25 @@ export const updateTask = (data) => (dispatch, getState) => {
   }
 };
 
+//update sigle task
+export const deleteTask = (id) => (dispatch, getState) => {
+  const { task } = getState();
+  dispatch(setError(""));
+  dispatch(setLoading(true));
+
+  const queryTask = task.tasks.filter((item) => item.id !== id);
+  if (queryTask) {
+    try {
+      dispatch(setLoading(false));
+      console.log(queryTask);
+      dispatch(setTask(queryTask));
+    } catch (error) {
+      dispatch(setLoading(false));
+      dispatch(setError(error));
+    }
+  }
+};
+
 export const taskSlice = createSlice({
   name: "task",
   initialState,
