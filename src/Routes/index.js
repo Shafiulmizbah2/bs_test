@@ -6,6 +6,7 @@ import TasksPage from "../pages/TasksPage";
 import MembersPage from "../pages/MembersPage";
 import ProtectedRoute from "./ProtectedRoute";
 import Layout from "../components/Layout";
+import TaskDetailsPage from "../pages/TaskDetailsPage";
 
 export default () => {
   return (
@@ -40,6 +41,14 @@ export default () => {
             element={
               <ProtectedRoute>
                 <TasksPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path=":taskId"
+            element={
+              <ProtectedRoute>
+                <TaskDetailsPage />
               </ProtectedRoute>
             }
           />

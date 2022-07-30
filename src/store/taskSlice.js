@@ -1,5 +1,7 @@
 //This slice is handle all functionality about Task flow.
 
+import { v4 as uuidv4 } from "uuid";
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -17,12 +19,13 @@ export const addNewTask =
 
     dispatch(setLoading(true));
     const date = new Date().toDateString();
+    const id = uuidv4();
 
     try {
       dispatch(setLoading(false));
       const newTasks = [
         ...task.tasks,
-        { title, description, assignTo, createdAt: date },
+        { id, title, description, assignTo, createdAt: date },
       ];
       dispatch(setTask(newTasks));
     } catch (error) {
@@ -30,6 +33,34 @@ export const addNewTask =
       dispatch(setError(error));
     }
   };
+
+//get sigle task
+export const getTask = (id) => (dispatch, getState) => {
+  dispatch(setError(""));
+  const { task } = getState();
+
+  const queryTask = task.tasks.find((item) => item.id === id);
+  if (queryTask) return queryTask;
+};
+
+//update sigle task
+export const updateTask = (data) => (dispatch, getState) => {
+  const { task } = getState();
+  dispatch(setError(""));
+  if (!data.title) return dispatch(setError("Title is required field!"));
+  dispatch(setLoading(true));
+  const queryTask = task.tasks.filter((item) => item.id !== data.id);
+  if (queryTask) {
+    try {
+      dispatch(setLoading(false));
+      const newTasks = [...queryTask, { ...data }];
+      dispatch(setTask(newTasks));
+    } catch (error) {
+      dispatch(setLoading(false));
+      dispatch(setError(error));
+    }
+  }
+};
 
 export const taskSlice = createSlice({
   name: "task",

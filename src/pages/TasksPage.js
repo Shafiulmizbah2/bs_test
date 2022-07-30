@@ -3,9 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Section from "../components/Section";
 import theme from "../theme";
-import { addNewTask } from "../store/taskSlice";
+import { addNewTask, getTask, updateTask } from "../store/taskSlice";
 import Modal from "../components/Modal";
 import Form from "../components/Form";
+import { Link } from "react-router-dom";
+import { MdEdit } from "react-icons/md";
 
 const Container = styled.div`
   width: 100%;
@@ -56,46 +58,75 @@ const Task = styled.div`
   border-bottom: 0.2rem solid ${(props) => props.theme.gray};
 `;
 
-const TaskTitle = styled.h3`
+const TaskTitle = styled(Link)`
   font-size: 1.8rem;
   font-weight: 300;
   margin-right: 0.5rem;
   text-transform: capitalize;
+  text-decoration: none;
+  color: inherit;
 `;
 
-const TaskDesc = styled.p`
+const Column = styled.p`
   font-size: 1.7rem;
   font-weight: 400;
   margin-right: 0.5rem;
 `;
 
-const TaskAssignTo = styled.p`
-  font-size: 1.7rem;
+const HeaderTitle = styled.h3`
+  font-size: 1.8rem;
   font-weight: 400;
-  text-transform: uppercase;
+  margin-right: 0.5rem;
+  text-transform: capitalize;
 `;
 
 const TasksPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const [values, setValues] = useState({});
+  const [selectedTask, setSelectedTask] = useState({});
   const dispatch = useDispatch();
   const { tasks, loading, error } = useSelector((state) => state.task);
 
   const toggleModal = () => setModalOpen(!modalOpen);
 
+  //this toggle func get the selected task & show update modal
+  const toggleUpdateModal = (id) => {
+    const task = dispatch(getTask(id));
+    if (task) {
+      setSelectedTask(() => task);
+      setUpdateModalOpen(!updateModalOpen);
+    }
+  };
+
+  //store state change of create form
   const handleChange = (e) => {
     //this func reads value from input & save them to state dynamically
-
     let value = e.target.value;
     let name = e.target.name;
     setValues({ ...values, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  //store state change of update form
+  const handleSelectedChange = (e) => {
+    //this func reads value from input & save them to state dynamically
+    let value = e.target.value;
+    let name = e.target.name;
+    setSelectedTask({ ...selectedTask, [name]: value });
+  };
+
+  const handleCreate = (e) => {
     e.preventDefault();
     dispatch(addNewTask(values.title, values.description, values.assignTo));
     setValues({});
     if (!loading && !error) toggleModal();
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    dispatch(updateTask(selectedTask));
+    setSelectedTask({});
+    if (!loading && !error) setUpdateModalOpen(false);
   };
 
   return (
@@ -110,19 +141,15 @@ const TasksPage = () => {
           </TopContainer>
           <Container>
             <Task>
-              <TaskTitle>Task</TaskTitle>
-              <TaskDesc style={{ textTransform: "uppercase" }}>
-                Created at
-              </TaskDesc>
-              <TaskAssignTo>Assign to</TaskAssignTo>
+              <HeaderTitle>Task</HeaderTitle>
+              <Column>Update Task</Column>
             </Task>
             {tasks.map((item) => (
               <Task key={item.title}>
-                <TaskTitle>{item.title}</TaskTitle>
-                <TaskDesc>{item.createdAt}</TaskDesc>
-                <TaskAssignTo>
-                  {item.assignTo ? item.assignTo : "- - -"}
-                </TaskAssignTo>
+                <TaskTitle to={`/tasks/${item.id}`}>{item.title}</TaskTitle>
+                <Column onClick={() => toggleUpdateModal(item.id)}>
+                  <MdEdit />
+                </Column>
               </Task>
             ))}
 
@@ -141,9 +168,10 @@ const TasksPage = () => {
           </Container>
         </Container>
       </Section>
+      {/* create task modal */}
       {modalOpen && (
         <Modal show={modalOpen} onClose={toggleModal}>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleCreate}>
             <Form.Title title="Create new task" />
             {error && <Form.Label label={error} labelDanger />}
 
@@ -176,7 +204,50 @@ const TasksPage = () => {
               bgColor={loading ? theme.gray : theme.blue}
               color={loading ? theme.black : theme.white}
               type="submit"
-              onClick={handleSubmit}
+              onClick={handleCreate}
+              disabled={loading}
+            />
+          </Form>
+        </Modal>
+      )}
+      {/* update task modal */}
+
+      {updateModalOpen && (
+        <Modal show={updateModalOpen} onClose={() => setUpdateModalOpen(false)}>
+          <Form onSubmit={handleUpdate}>
+            <Form.Title title="Update task" />
+            {error && <Form.Label label={error} labelDanger />}
+
+            <Form.Input
+              placeholder="Title"
+              type="text"
+              name="title"
+              value={selectedTask.title}
+              onChange={handleSelectedChange}
+            />
+
+            <Form.Input
+              placeholder="Description"
+              type="text"
+              name="description"
+              value={selectedTask.description}
+              onChange={handleSelectedChange}
+            />
+            <Form.Select
+              placeholder="assignTo"
+              type="text"
+              name="assignTo"
+              value={selectedTask.assignTo}
+              onChange={handleSelectedChange}
+              options={[{ value: "Mr.Abc" }, { value: "Mr.Efg" }]}
+              defaultValue="Assign to"
+            />
+            <Form.Button
+              text={loading ? "Loading..." : "Update task"}
+              bgColor={loading ? theme.gray : theme.blue}
+              color={loading ? theme.black : theme.white}
+              type="submit"
+              onClick={handleUpdate}
               disabled={loading}
             />
           </Form>
